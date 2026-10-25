@@ -8,7 +8,7 @@ Ganti dulu tiga nilai ini:
 
 ## 0. Isi alamat kamu di skrip (sekali saja, sebelum setup miner)
 
-Download `setup-complete.sh` dari repo ini, lalu isi baris `PRODUCTION_ADDRESS=""` dengan alamat BNT kamu. Skrip menolak jalan untuk mode mining kalau baris itu masih kosong.
+Download `setup-complete.sh` dari repo ini. Baris `PRODUCTION_ADDRESS` sudah terisi alamat BNT pemilik repo; skrip menolak jalan untuk mode mining kalau baris itu kosong. Verifikasi dengan `grep PRODUCTION_ADDRESS setup-complete.sh`.
 
 ## 1. Mesin A (VPS relay, sebagai root)
 

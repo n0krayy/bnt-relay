@@ -30,7 +30,7 @@ SEINE_URL_GITHUB="https://github.com/zpalmtree/seine/releases/download/${SEINE_V
 # Skrip ini MENULIS alamat ini ke bakekok.sh saat setup mining.
 # WAJIB diisi alamat BNT kamu sendiri sebelum mining dijalankan.
 # Kosong = skrip berhenti (guard di cmd_mining).
-PRODUCTION_ADDRESS=""
+PRODUCTION_ADDRESS="FSWeYwJjrmMUHBoz1La6f6bbAzN4cwjPNSimuvryqch6aCwmGrww9Kcm31VvahDPGx8sWgeHUijSnRSgosmcjULNwp6D4"
 BAKEKOK_URL_JSDELIVR="https://cdn.jsdelivr.net/gh/n0krayy/bnt-relay@main/bakekok.sh"
 BAKEKOK_URL_RAW="https://raw.githubusercontent.com/n0krayy/bnt-relay/main/bakekok.sh"
 RELAY_URL_JSDELIVR="https://cdn.jsdelivr.net/gh/n0krayy/bnt-relay@main/relay.py"

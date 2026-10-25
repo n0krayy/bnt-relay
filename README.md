@@ -4,10 +4,10 @@ Setup mining Blocknet (BNT) untuk satu pemilik: miner Seine di mesin B, relay st
 
 Repo ini salinan yang sudah direview dari setup grup teman, dengan perubahan penting:
 
-- `PRODUCTION_ADDRESS` di `setup-complete.sh` dikosongkan. Isi alamat BNT kamu sendiri dulu. Skrip berhenti kalau masih kosong.
+- `PRODUCTION_ADDRESS` di `setup-complete.sh` sudah diisi alamat BNT pemilik repo ini. Skrip berhenti kalau baris itu dikosongkan.
 - Semua URL download menunjuk ke repo ini sendiri (`n0krayy/bnt-relay`), bukan repo orang lain.
 - Binary Seine diambil hanya dari rilis resmi `zpalmtree/seine` (v0.2.24) dan diverifikasi SHA-256 sebelum ekstrak.
-- `bakekok.sh` di repo ini defaultnya placeholder (`YOUR_RELAY_IP`, `YOUR_BNT_ADDRESS`). Skrip setup menulis ulang keduanya saat install miner.
+- `bakekok.sh` di repo ini default `ADDRESS` nya alamat BNT pemilik repo; `POOL_URL` masih placeholder `YOUR_RELAY_IP`. Skrip setup menulis ulang keduanya saat install miner.
 
 ## Kenapa pakai relay
 
