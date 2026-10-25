@@ -1,0 +1,12 @@
+[Unit]
+Description=BNT stratum relay (:443 -> bntpool.com:3333)
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+ExecStart=/usr/bin/python3 /opt/bnt-relay/relay.py
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
