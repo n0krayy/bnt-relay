@@ -23,14 +23,14 @@
 # berbeda di satu Claw tidak akan lolos lagi.
 set -euo pipefail
 
-SEINE_VERSION="v0.2.21"
-SEINE_SHA256="a94248aac209e9a18195adb21ef1dab996a6fe2bde0090bd7eaf65e03c91da77"
+SEINE_VERSION="v0.2.25"
+SEINE_SHA256="b4c3fa0bd4ed7b8384928b1e978612a564509684f845f961f65561ff5aed2a3b"
 SEINE_URL_GITHUB="https://github.com/zpalmtree/seine/releases/download/${SEINE_VERSION}/seine-linux-x86_64.tar.gz"
-# Mirror transport saja (dari ArkClaw, github.com timeout; jsDelivr/raw bisa).
-# Keaslian binary TIDAK bergantung pada mirror: SHA-256 resmi di atas selalu
-# diverifikasi setelah download dan skrip berhenti kalau tidak cocok.
-SEINE_URL_JSDELIVR="https://cdn.jsdelivr.net/gh/agenticspring/bnt-seine-runner@main/seine/seine-linux-x86_64.tar.gz"
-SEINE_URL_RAW="https://raw.githubusercontent.com/agenticspring/bnt-seine-runner/main/seine/seine-linux-x86_64.tar.gz"
+# Sumber: rilis resmi GitHub (halaman rilis + API asset di bawah).
+# Mirror jsDelivr lama hanya membawa tarball v0.2.21, jadi tidak dipakai lagi.
+# Keaslian binary dijamin SHA-256 resmi di atas, selalu diverifikasi
+# setelah download dan skrip berhenti kalau tidak cocok.
+SEINE_URL_API="https://api.github.com/repos/zpalmtree/seine/releases/assets/676072540"
 # Alamat wallet BNT MILIK SENDIRI (repo personal n0krayy).
 # Skrip ini MENULIS alamat ini ke bakekok.sh saat setup mining.
 # WAJIB diisi alamat BNT kamu sendiri sebelum mining dijalankan.
@@ -52,7 +52,9 @@ download() {
     local url
     for url in "$@"; do
         echo "Mencoba download: $url"
-        if curl -L --connect-timeout 15 --max-time 120 "$url" -o "$out"; then
+        hdr=()
+        [[ "$url" == *"api.github.com"* ]] && hdr=(-H "Accept: application/octet-stream")
+        if curl -L --connect-timeout 15 --max-time 300 "${hdr[@]}" "$url" -o "$out"; then
             if [ -s "$out" ]; then
                 echo "OK: $out"
                 return 0
@@ -162,10 +164,10 @@ cmd_mining() {
     echo "== 1. Folder + binary Seine ${SEINE_VERSION} =="
     mkdir -p /root/bnt-seine-runner
     cd /root/bnt-seine-runner
-    if [ -x ./seine ] && ./seine --version 2>/dev/null | grep -q "$SEINE_VERSION"; then
-        echo "Binary ./seine ${SEINE_VERSION} sudah ada, download dilewati."
+    if [ -x ./seine ] && ./seine --version >/dev/null 2>&1; then
+        echo "Binary ./seine sudah ada ($(./seine --version 2>/dev/null | head -n 1)), download dilewati."
     else
-        download seine.tar.gz "$SEINE_URL_JSDELIVR" "$SEINE_URL_RAW" "$SEINE_URL_GITHUB" \
+        download seine.tar.gz "$SEINE_URL_GITHUB" "$SEINE_URL_API" \
             || die "tidak bisa download seine.tar.gz dari semua mirror"
         echo "${SEINE_SHA256}  seine.tar.gz" | sha256sum -c - \
             || die "SHA-256 seine.tar.gz tidak cocok, berhenti (file corrupt / bukan rilis resmi)"
