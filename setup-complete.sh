@@ -72,6 +72,7 @@ Pakai:
   ./setup-complete.sh relay <IP-MINER> [IP-MINER...]
   ./setup-complete.sh mining --relay <IP-RELAY> [--run]
   ./setup-complete.sh mining --direct [--run]
+  ./setup-complete.sh mining --pool <URL-STRATUM> [--run]
 
 Contoh lengkap:
   # di mesin relay (A), izinkan miner B:
@@ -144,9 +145,10 @@ cmd_relay() {
 cmd_mining() {
     need_root
     [ -n "$PRODUCTION_ADDRESS" ] || die "PRODUCTION_ADDRESS masih kosong. Isi dulu alamat BNT kamu sendiri di setup-complete.sh baris PRODUCTION_ADDRESS."
-    local mode="" relay_ip="" run_miner=0
+    local mode="" relay_ip="" run_miner=0 pool_override=""
     while [ "$#" -gt 0 ]; do
         case "$1" in
+            --pool) pool_override="${2:-}"; [ -n "$pool_override" ] || die "--pool butuh URL stratum"; shift 2 ;;
             --relay) relay_ip="${2:-}"; [ -n "$relay_ip" ] || die "--relay butuh IP"; shift 2 ;;
             --direct) mode="direct"; shift ;;
             --run) run_miner=1; shift ;;
@@ -154,12 +156,14 @@ cmd_mining() {
         esac
     done
     local pool_url
-    if [ -n "$relay_ip" ]; then
+    if [ -n "$pool_override" ]; then
+        pool_url="$pool_override"
+    elif [ -n "$relay_ip" ]; then
         pool_url="stratum+tcp://${relay_ip}:443"
     elif [ "$mode" = "direct" ]; then
         pool_url="stratum+tcp://bntpool.com:3333"
     else
-        die "pilih salah satu: --relay <IP-RELAY> atau --direct"
+        die "pilih salah satu: --pool <URL> atau --relay <IP-RELAY> atau --direct"
     fi
     echo "== 1. Folder + binary Seine ${SEINE_VERSION} =="
     mkdir -p /root/bnt-seine-runner
