@@ -6,7 +6,7 @@ Repo ini salinan yang sudah direview dari setup grup teman, dengan perubahan pen
 
 - `PRODUCTION_ADDRESS` di `setup-complete.sh` sudah diisi alamat BNT pemilik repo ini. Skrip berhenti kalau baris itu dikosongkan.
 - Semua URL download menunjuk ke repo ini sendiri (`n0krayy/bnt-relay`), bukan repo orang lain.
-- Binary Seine adalah rilis resmi `zpalmtree/seine` v0.2.25, diunduh dari rilis GitHub resmi (halaman rilis atau API asset), dan SHA-256 resmi dari GitHub API selalu diverifikasi sebelum ekstrak; file yang hash nya beda ditolak. Kalau di folder runner sudah ada binary seine yang jalan (versi berapa pun), skrip memakainya dan melewati download.
+- Binary Seine adalah rilis resmi `zpalmtree/seine` v0.2.45, diunduh dari rilis GitHub resmi (halaman rilis atau API asset), dan SHA-256 resmi dari GitHub API selalu diverifikasi sebelum ekstrak; file yang hash nya beda ditolak. Kalau di folder runner sudah ada binary seine, skrip mengecek versinya: hanya binary v0.2.45 yang dipakai ulang dan melewati download, versi lain diganti otomatis ke v0.2.45.
 - `bakekok.sh` di repo ini default `ADDRESS` nya alamat BNT pemilik repo; `POOL_URL` masih placeholder `YOUR_RELAY_IP`. Skrip setup menulis ulang keduanya saat install miner.
 
 ## Kenapa pakai relay

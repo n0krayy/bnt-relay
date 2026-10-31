@@ -23,14 +23,14 @@
 # berbeda di satu Claw tidak akan lolos lagi.
 set -euo pipefail
 
-SEINE_VERSION="v0.2.25"
-SEINE_SHA256="b4c3fa0bd4ed7b8384928b1e978612a564509684f845f961f65561ff5aed2a3b"
+SEINE_VERSION="v0.2.45"
+SEINE_SHA256="19e3c979d14f38664bdfb28c2b48e4b0580a1cb711bae2ee68bcbc9ea41bd173"
 SEINE_URL_GITHUB="https://github.com/zpalmtree/seine/releases/download/${SEINE_VERSION}/seine-linux-x86_64.tar.gz"
 # Sumber: rilis resmi GitHub (halaman rilis + API asset di bawah).
 # Mirror jsDelivr lama hanya membawa tarball v0.2.21, jadi tidak dipakai lagi.
 # Keaslian binary dijamin SHA-256 resmi di atas, selalu diverifikasi
 # setelah download dan skrip berhenti kalau tidak cocok.
-SEINE_URL_API="https://api.github.com/repos/zpalmtree/seine/releases/assets/676072540"
+SEINE_URL_API="https://api.github.com/repos/zpalmtree/seine/releases/assets/686138695"
 # Alamat wallet BNT MILIK SENDIRI (repo personal n0krayy).
 # Skrip ini MENULIS alamat ini ke bakekok.sh saat setup mining.
 # WAJIB diisi alamat BNT kamu sendiri sebelum mining dijalankan.
@@ -168,9 +168,16 @@ cmd_mining() {
     echo "== 1. Folder + binary Seine ${SEINE_VERSION} =="
     mkdir -p /root/bnt-seine-runner
     cd /root/bnt-seine-runner
-    if [ -x ./seine ] && ./seine --version >/dev/null 2>&1; then
-        echo "Binary ./seine sudah ada ($(./seine --version 2>/dev/null | head -n 1)), download dilewati."
+    installed_version=""
+    if [ -x ./seine ]; then
+        installed_version="$(./seine --version 2>/dev/null | grep -oE '[0-9]+\.[0-9]+\.[0-9]+' | head -n 1 || true)"
+    fi
+    if [ -n "$installed_version" ] && [ "$installed_version" = "${SEINE_VERSION#v}" ]; then
+        echo "Binary ./seine sudah versi ${SEINE_VERSION}, download dilewati."
     else
+        if [ -n "$installed_version" ]; then
+            echo "Binary ./seine lama (v${installed_version}) ditemukan, diganti ke ${SEINE_VERSION}."
+        fi
         download seine.tar.gz "$SEINE_URL_GITHUB" "$SEINE_URL_API" \
             || die "tidak bisa download seine.tar.gz dari semua mirror"
         echo "${SEINE_SHA256}  seine.tar.gz" | sha256sum -c - \
