@@ -23,14 +23,14 @@
 # berbeda di satu Claw tidak akan lolos lagi.
 set -euo pipefail
 
-SEINE_VERSION="v0.3.0"
-SEINE_SHA256="5e4fb99d03181816443614d97b9e09354270b41696f440491dfac570ff59c586"
+SEINE_VERSION="v0.3.1"
+SEINE_SHA256="ad8736fda31c4815eb2672f2e6fd1974f295f47e03d22b49f384cceb5fef2d81"
 SEINE_URL_GITHUB="https://github.com/zpalmtree/seine/releases/download/${SEINE_VERSION}/seine-linux-x86_64.tar.gz"
 # Sumber: rilis resmi GitHub (halaman rilis + API asset di bawah).
 # Mirror jsDelivr lama hanya membawa tarball v0.2.21, jadi tidak dipakai lagi.
 # Keaslian binary dijamin SHA-256 resmi di atas, selalu diverifikasi
 # setelah download dan skrip berhenti kalau tidak cocok.
-SEINE_URL_API="https://api.github.com/repos/zpalmtree/seine/releases/assets/700808761"
+SEINE_URL_API="https://api.github.com/repos/zpalmtree/seine/releases/assets/711159819"
 # Alamat wallet BNT MILIK SENDIRI (repo personal n0krayy).
 # Skrip ini MENULIS alamat ini ke bakekok.sh saat setup mining.
 # WAJIB diisi alamat BNT kamu sendiri sebelum mining dijalankan.
